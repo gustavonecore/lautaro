@@ -26,10 +26,5 @@ return [
 	],
 	'command_namespaces' => [
 		'Leftaro\\App\\Command\\',
-		'Leftaro\\App\\Command\\Auth\\',
-		'Leftaro\\App\\Command\\Entity\\',
-		'Leftaro\\App\\Command\\Transaction\\',
-		'Leftaro\\App\\Command\\BCenter\\',
-		'Leftaro\\App\\Command\\Account\\',
 	],
 ];

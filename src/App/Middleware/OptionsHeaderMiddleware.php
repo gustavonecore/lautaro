@@ -11,8 +11,6 @@ class OptionsHeaderMiddleware implements MiddlewareInterface
 	 */
 	public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next = null) : ResponseInterface
 	{
-		error_log("__invoke OptionsHeaderMiddleware");
-
 		if ($request->getMethod() === 'OPTIONS')
 		{
 			$requiredHeaders = $request->hasHeader('Access-Control-Request-Headers') ? $request->getHeader('Access-Control-Request-Headers')[0] : '*';

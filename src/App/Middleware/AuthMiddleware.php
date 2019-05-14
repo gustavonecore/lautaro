@@ -13,8 +13,6 @@ class AuthMiddleware implements MiddlewareInterface
 	 */
 	public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next = null) : ResponseInterface
 	{
-		error_log("__invoke AuthMiddleware");
-
 		$accessToken = null;
 
 		if (isset($request->getQueryParams()['access_token']) === true)

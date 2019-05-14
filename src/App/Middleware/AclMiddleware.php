@@ -19,8 +19,6 @@ class AclMiddleware implements MiddlewareInterface, ContainerAwareInterface
 	 */
 	public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next = null) : ResponseInterface
 	{
-		error_log("__invoke AclMiddleware");
-
 		$allowedMethods = $this->container->get('config')->get('app.acl_whitelist_methods');
 		$allowedResources = $this->container->get('config')->get('app.acl_whitelist_resources');
 

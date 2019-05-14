@@ -14,8 +14,6 @@ class InflatorsMiddleware implements MiddlewareInterface
 	 */
 	public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next = null) : ResponseInterface
 	{
-		error_log("__invoke InflatorsMiddleware");
-
 		$query = (new TemplateSanitizer(['inflators' => 'string']))->sanitize($request->getQueryParams());
 
 		$query['inflators'] = ($query['inflators'] === null) ? '' : $query['inflators'];
