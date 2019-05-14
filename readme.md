@@ -29,4 +29,4 @@ Database Migrations
 
 Getting Started
 --------------
-- [Build a blog Restful API](https://github.com/gustavonecore/lautaro/blob/develop/blog.md)
+- [Build a blog Restful API](https://github.com/gustavonecore/lautaro/blob/master/blog.md)

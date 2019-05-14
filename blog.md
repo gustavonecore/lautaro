@@ -90,7 +90,7 @@ Don't worry about the `/api/v1` Leftaro it's shipped with api versioning, so thi
 **Create the controller**
 
 In order to make the endpoint available from the server, we need to create a new controller, called `PostController` inside the `Controller\Api` namespace. 
-For a better understand about the routing rules, check out the related doc here about [Smart-routing](https://github.com/gustavonecore/oss-leftaro/smart-routing.md "Smart-routing").
+For a better understand about the routing rules, check out the related doc here about [Smart-routing](https://github.com/gustavonecore/lautaro/blob/master/smart-routing.md "Smart-routing").
 
 Add the POST handler method to the controller Blog as follow:
 
