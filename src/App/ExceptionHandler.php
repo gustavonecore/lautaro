@@ -1,6 +1,7 @@
 <?php namespace Leftaro\App;
 
 use Exception;
+use Gcore\Sanitizer\Template\RequiredFieldsException;
 use Leftaro\App\Exception\ApiException;
 use Leftaro\Core\Exception\ExceptionHandler as LeftaroExceptionHandler;
 use Leftaro\Core\Exception\NotFoundException;
@@ -12,6 +13,9 @@ use Zend\Diactoros\Response\{
 	HtmlResponse
 };
 
+/**
+ * Custom exception handler
+ */
 class ExceptionHandler extends LeftaroExceptionHandler
 {
 	/**
@@ -32,6 +36,15 @@ class ExceptionHandler extends LeftaroExceptionHandler
 		if ($e instanceof EntityNotFoundException)
 		{
 			return $this->notFoundResponse($request, $e->getMessage());
+		}
+
+		if ($e instanceof RequiredFieldsException)
+		{
+			return new JsonResponse([
+				'error' => $e->getMessage(),
+				'code' => ApiException::INVALID_PARAMETER,
+				'params' => $e->getErrors(),
+			], 400);
 		}
 
 		return parent::getResponse($e, $request);

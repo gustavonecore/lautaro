@@ -19,9 +19,9 @@ class PostController extends ApiController
 	public function postCollectionAction(ServerRequest $request, Response $response) : Response
 	{
 		$input = $this->verify([
-			'title' => 'string',
-			'content' => 'string',
-		], $request->getParsedBody(), ['title', 'content']);
+			'title' => 'string!',
+			'content' => 'string!',
+		], $request->getParsedBody());
 
 		$post = Post::create([
 			'title' => $input['title'],
