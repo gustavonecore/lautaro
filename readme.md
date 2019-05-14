@@ -1,5 +1,19 @@
-Business Leftaro, a micro Web Framework for sales platforms
+Lautaro Framework for restful API
 =============================
+
+Lautaro framework is a light toolset to create restful API in a easy way with only what you need.
+
+
+Current status
+--------------
+
+- [x] Add PSR-15 middleware approach
+- [x] Add PSR-7 Http library
+- [x] Add PSR-11 Container
+- [x] Add configuration loader class
+- [x] Add built-in server for development mode
+- [x] Add FastRoute for fixed routes by file
+- [x] Add automatic route resolver by URI/Controller
 
 Install
 --------------
