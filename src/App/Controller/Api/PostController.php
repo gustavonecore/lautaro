@@ -10,7 +10,7 @@ use Leftaro\App\Model\Post;
 class PostController extends ApiController
 {
 	/**
-	 * Create a new ot
+	 * Create a new post
 	 *
 	 * @param ServerRequest $request
 	 * @param Response $response
