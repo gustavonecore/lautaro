@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="default" defaultIdMethod="native" namespace="Leftaro\App\Model" defaultPhpNamingMethod="underscore"/>
