@@ -1,8 +1,8 @@
 <?php namespace Leftaro\App\Hex;
 
-use Exception;
 use Interop\Container\ContainerInterface;
 use League\Tactician\CommandBus as TacticianCommandBus;
+use Leftaro\App\Command\CommandInterface;
 use RuntimeException;
 use ReflectionClass;
 
@@ -25,6 +25,17 @@ class CommandBus extends TacticianCommandBus
 		parent::__construct($middlewares);
 
 		$this->container = $container;
+	}
+
+	/**
+	 * Handles a command
+	 *
+	 * @param CommandInterface $command
+	 * @return mixed
+	 */
+	public function handle(CommandInterface $command)
+	{
+		return $this->handle($command);
 	}
 
 	/**

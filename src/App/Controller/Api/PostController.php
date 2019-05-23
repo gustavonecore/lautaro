@@ -1,9 +1,9 @@
 <?php namespace Leftaro\App\Controller\Api;
 
 use Leftaro\App\Controller\Api\ApiController;
+use Leftaro\App\Command\Blog\CreatePostCommand;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
-use Leftaro\App\Model\Post;
 /**
  * Post controller
  */
@@ -23,10 +23,7 @@ class PostController extends ApiController
 			'content' => 'string!',
 		], $request->getParsedBody());
 
-		$post = Post::create([
-			'title' => $input['title'],
-			'content' => $input['content'],
-		]);
+		$post = $this->bus->handle(new CreatePostCommand($input['title'], $input['content']));
 
 		return $this->json([
 			'data' => [

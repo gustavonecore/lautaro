@@ -26,6 +26,9 @@ Install
 `cp phinx.default.yml phinx.yml`  replace with your settings
 - **Configure the Propel ORM inside**
 `config/local/propel.php`
+- **Create the migrations and seed folders required by Phinx**
+`mkdir etc/migrations`
+`mkdir etc/seeds`
 - **Generate the first schema with**
 `php bin/update-model.php`
 - **Run the local server**
