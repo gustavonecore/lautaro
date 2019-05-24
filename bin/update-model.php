@@ -1,5 +1,7 @@
 <?php
 
+require __DIR__ . '/../app/bootstrap.php';
+
 $propel = __DIR__ . '/../propel';
 $etc = __DIR__ . '/../etc/';
 $configDir = __DIR__ . '/../config/local/';
