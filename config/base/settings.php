@@ -26,6 +26,7 @@ return [
 	],
 	'command_namespaces' => [
 		'Leftaro\\App\\Command\\',
-		'Leftaro\\App\\Command\\Util\\',
 	],
+	'env' => getenv('ENV'),
+	'unknown_error_verbose' => getenv('UNKNOWN_ERROR_VERBOSE'),
 ];

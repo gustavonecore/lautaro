@@ -106,7 +106,7 @@ Add the POST handler method to the controller Blog as follow:
     class PostController extends ApiController
     {
     	/**
-    	 * Create a new ot
+    	 * Create a new post
     	 *
     	 * @param ServerRequest $request
     	 * @param Response $response
