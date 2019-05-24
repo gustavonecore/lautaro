@@ -26,5 +26,6 @@ return [
 	],
 	'command_namespaces' => [
 		'Leftaro\\App\\Command\\',
+		'Leftaro\\App\\Command\\Util\\',
 	],
 ];
