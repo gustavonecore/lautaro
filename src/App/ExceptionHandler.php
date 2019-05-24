@@ -93,6 +93,6 @@ class ExceptionHandler extends LeftaroExceptionHandler
 			'description' => 'The requested page "' . $request->getUri()->getPAth() . '" was not found',
 		]);
 
-		return new HtmlResponse($html, $status);
+		return new HtmlResponse($html, 404);
 	}
 }
