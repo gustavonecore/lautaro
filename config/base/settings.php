@@ -2,10 +2,10 @@
 return [
 	'host' => 'http://0.0.0.0:8080/',
 	'database' => [
-		'dbname' => 'transactions',
-		'user' => 'root',
-		'password' => 'root',
-		'host' => 'localhost',
+		'dbname' => getenv('DB_NAME'),
+		'user' => getenv('DB_USERNAME'),
+		'password' => getenv('DB_PASSWORD'),
+		'host' => getenv('DB_HOST'),
 		'driver' => 'pdo_mysql',
 	],
 	'paths' => [

@@ -12,11 +12,11 @@ We'll use phinx for this, just run: `php vendor/bin/phinx create AddBlogTable`
 After running the command, a new migration will be placed in `etc\migrations\`.
 Then, you need to add the `up` and `down`methods.
 
-
+```php
     <?php
-    
+
     use Phinx\Migration\AbstractMigration;
-    
+
     class AddBlogTable extends AbstractMigration
     {
         public function up()
@@ -28,14 +28,13 @@ Then, you need to add the `up` and `down`methods.
                     ->addColumn('updated_dt', 'datetime', ['null' => true])
                     ->create();
         }
-    
+
         public function down()
         {
             $this->table('post')->drop()->save();
         }
     }
-    
-
+```
 
 To run your migration, just execute: `php vendor/bin/phinx migrate`.
 For more details about how to use Phinx, please refer to the docs: [Phinx](http://docs.phinx.org/en/latest/migrations.html "Phinx")
@@ -47,15 +46,14 @@ Leftaro used Propel as ORM. To create the related model just run:
 
 Leftaro have some useful traits to make models a bit more usable, just take a look to the final Post model.
 
-
-
+```php
     <?php
-    
+
     namespace Leftaro\App\Model;
-    
+
     use Leftaro\App\Model\Base\Post as BasePost;
     use Leftaro\App\ModelMapperTrait;  // This was added
-    
+
     /**
      * Skeleton subclass for representing a row from the 'post' table.
      *
@@ -70,13 +68,13 @@ Leftaro have some useful traits to make models a bit more usable, just take a lo
     {
     	use ModelMapperTrait; // This was added
     }
-
+```
 
 #### Create post
 
 **Endpoint**
 
-Since we have our table ready to go, we need to create blog items. For that, we'll define the url as: 
+Since we have our table ready to go, we need to create blog items. For that, we'll define the url as:
 
     POST /api/v1/post
     {
@@ -89,20 +87,19 @@ Don't worry about the `/api/v1` Leftaro it's shipped with api versioning, so thi
 
 **Create the controller**
 
-In order to make the endpoint available from the server, we need to create a new controller, called `PostController` inside the `Controller\Api` namespace. 
+In order to make the endpoint available from the server, we need to create a new controller, called `PostController` inside the `Controller\Api` namespace.
 For a better understand about the routing rules, check out the related doc here about [Smart-routing](https://github.com/gustavonecore/lautaro/blob/master/smart-routing.md "Smart-routing").
 
 Add the POST handler method to the controller Blog as follow:
 
-
-
+```php
     <?php namespace Leftaro\App\Controller\Api;
-    
+
     use Leftaro\App\Controller\Api\ApiController;
     use Zend\Diactoros\Response;
     use Zend\Diactoros\ServerRequest;
     use Leftaro\App\Model\Post;
-	
+
     /**
      * Post controller
      */
@@ -121,12 +118,12 @@ Add the POST handler method to the controller Blog as follow:
     			'title' => 'string',
     			'content' => 'string',
     		], $request->getParsedBody(), ['title', 'content']);
-    
+
     		$post = Post::create([
     			'title' => $input['title'],
     			'content' => $input['content'],
     		]);
-    
+
     		return $this->json([
     			'data' => [
     				'post' => $post->asArray(),
@@ -134,6 +131,7 @@ Add the POST handler method to the controller Blog as follow:
     		]);
     	}
     }
+```
 
 **Sanitization**
 You can take a look to the `verify` method inside the `Leftaro\App\Controller\BaseController` to check how it works and how is sanitizing your inputs. Leftaro uses under the hood the [Gcore Sanitizer](https://github.com/gustavonecore/sanitizer "Gcore Sanitizer").
