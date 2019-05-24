@@ -19,3 +19,4 @@
 /src/App/Model/Map/PhinxlogTableMap.php
 /src/App/Model/Base/Phinxlog.php
 /src/App/Model/Base/PhinxlogQuery.php
+.env

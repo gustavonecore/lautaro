@@ -1,2 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<database name="default" defaultIdMethod="native" namespace="Leftaro\App\Model" defaultPhpNamingMethod="underscore"/>
+<database name="default" defaultIdMethod="native" defaultPhpNamingMethod="underscore">
+  <table name="phinxlog" idMethod="native" phpName="Phinxlog" namespace="Leftaro\App\Model">
+    <column name="version" phpName="Version" type="BIGINT" primaryKey="true" required="true"/>
+    <column name="migration_name" phpName="MigrationName" type="VARCHAR" size="100"/>
+    <column name="start_time" phpName="StartTime" type="TIMESTAMP"/>
+    <column name="end_time" phpName="EndTime" type="TIMESTAMP"/>
+    <column name="breakpoint" phpName="Breakpoint" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="post" idMethod="native" phpName="Post" namespace="Leftaro\App\Model">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="title" phpName="Title" type="VARCHAR" size="250" required="true"/>
+    <column name="content" phpName="Content" type="VARCHAR" size="255" required="true"/>
+    <column name="created_dt" phpName="CreatedDt" type="TIMESTAMP" required="true"/>
+    <column name="updated_dt" phpName="UpdatedDt" type="TIMESTAMP"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+</database>
