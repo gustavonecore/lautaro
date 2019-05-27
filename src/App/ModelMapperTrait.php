@@ -78,6 +78,24 @@ trait ModelMapperTrait
 	}
 
 	/**
+	 * Update the given instance from an array of key/value
+	 *
+	 * @param array $fields
+	 * @return ActiveRecordInterface
+	 */
+	public static function update(array $fields) : ActiveRecordInterface
+	{
+		if (property_exists($this, 'update_dt'))
+		{
+			$fields['update_dt'] = !array_key_exists('update_dt', $fields) ? gmdate('Y-m-d H:i:s') : $fields['update_dt'];
+		}
+
+		$this->fromArray($fields, $keyType = TableMap::TYPE_FIELDNAME);
+		$this->save();
+		return $this;
+	}
+
+	/**
 	 * Access the propel instance for transaction purposes
 	 *
 	 * @return ConnectionInterface
