@@ -58,15 +58,15 @@ class MakeCommandHandlerCommand extends Command
 			->addOption("services", "s", InputOption::VALUE_OPTIONAL, 'Handler injected services');
 	}
 
-    /**
-     * Interacts with the user.
-     *
-     * This method is executed before the InputDefinition is validated.
-     * This means that this is the only place where the command can
-     * interactively ask for values of missing required arguments.
-     */
-    protected function interact(InputInterface $input, OutputInterface $output)
-    {
+	/**
+	 * Interacts with the user.
+	 *
+	 * This method is executed before the InputDefinition is validated.
+	 * This means that this is the only place where the command can
+	 * interactively ask for values of missing required arguments.
+	 */
+	protected function interact(InputInterface $input, OutputInterface $output)
+	{
 		try
 		{
 			if (!$input->getOption('name'))
@@ -84,7 +84,7 @@ class MakeCommandHandlerCommand extends Command
 			$output->writeln('<error>' . $e->getMessage());
 			exit;
 		}
-    }
+	}
 
 	/**
 	 * Execute the command
