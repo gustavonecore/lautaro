@@ -65,3 +65,4 @@ Database Migrations
 Getting Started
 --------------
 - [Build a blog Restful API](https://github.com/gustavonecore/lautaro/blob/master/blog.md)
+- [Leftaro console commands](https://github.com/gustavonecore/lautaro/blob/master/commands.md)
