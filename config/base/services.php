@@ -1,8 +1,6 @@
 <?php
 
 use Cocur\Slugify\Slugify;
-use Doctrine\ORM\Tools\Setup;
-use Doctrine\ORM\EntityManager;
 use DI\Container;
 use FastRoute\Dispatcher;
 use GuzzleHttp\Client as Guzzle;
@@ -16,9 +14,7 @@ use Leftaro\App\Hex\ClassNameExtractor;
 use Leftaro\App\Hex\CommandBus;
 use Leftaro\App\ExceptionHandler;
 use Leftaro\Core\Exception\ExceptionHandlerInterface;
-use Leftaro\App\Repository\AssetRepository;
-use Leftaro\App\Repository\UserRepository;
-use Leftaro\App\Repository\TokenRepository;
+use Leftaro\Core\Console\Generator\LeftaroTwigGenerator;
 use League\Tactician\Handler\CommandHandlerMiddleware;
 use League\Tactician\Handler\Locator\CallableLocator;
 use League\Tactician\Handler\MethodNameInflector\HandleInflector;
@@ -36,7 +32,7 @@ return [
 	Logger::class => function (ContainerInterface $container)
 	{
 		$log = new Logger('leftaro');
-		$log->pushHandler(new StreamHandler($container->get('config')->get('paths.logs') . gmdate('Y-m-d') . '.log', Logger::ERROR));
+		$log->pushHandler(new StreamHandler($container->get('config')->get('paths.logs') . gmdate('Y-m-d') . '.log', Logger::INFO));
 		return $log;
 	},
 
@@ -88,19 +84,11 @@ return [
 		return $container->get('guzzle');
 	},
 
-	AssetRepository::class => function(ContainerInterface $container)
+	LeftaroTwigGenerator::class => function (ContainerInterface $container)
 	{
-		return new AssetRepository($container);
-	},
-
-	UserRepository::class => function(ContainerInterface $container)
-	{
-		return new UserRepository;
-	},
-
-	TokenRepository::class => function(ContainerInterface $container)
-	{
-		return new TokenRepository;
+		return new LeftaroTwigGenerator(
+			new Twig_Loader_Filesystem($container->get('config')->get('paths.leftaro.templates'))
+		);
 	},
 
 	// Helper and aliases
@@ -202,17 +190,5 @@ return [
 		$handler = new ExceptionHandler;
 		$handler->setContainer($container);
 		return $handler;
-	},
-
-	'em' => function (ContainerInterface $container)
-	{
-		$isDevMode = true;
-		$config = Setup::createAnnotationMetadataConfiguration([__DIR__."/../../src/App/Entity/"], $isDevMode);
-		$entityManager = EntityManager::create($container->get('config')->get('database'), $config);
-	},
-
-	EntityManager::class => function (ContainerInterface $container)
-	{
-		return $container->get('em');
 	},
 ];
