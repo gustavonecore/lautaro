@@ -14,7 +14,7 @@ E.g:
 
 ```php
 > php leftaro make:controller "Account\PushNotificationRequest"
-> Leftaro\App\Controller\Api\Account\PushNotificationRequestDosController was build successfuly
+> Leftaro\App\Controller\Api\Account\PushNotificationRequestController was build successfuly
 ```
 
 As you can see, a new controller will be placed inside the defined namespace with the related context:
