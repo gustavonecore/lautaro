@@ -7,6 +7,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use RuntimeException;
 
 class MakeCommandHandlerCommand extends Command
 {
@@ -57,6 +58,34 @@ class MakeCommandHandlerCommand extends Command
 			->addOption("services", "s", InputOption::VALUE_OPTIONAL, 'Handler injected services');
 	}
 
+    /**
+     * Interacts with the user.
+     *
+     * This method is executed before the InputDefinition is validated.
+     * This means that this is the only place where the command can
+     * interactively ask for values of missing required arguments.
+     */
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+		try
+		{
+			if (!$input->getOption('name'))
+			{
+				throw new RuntimeException('Invalid --name option');
+			}
+
+			if (!$input->getOption('description'))
+			{
+				throw new RuntimeException('Invalid --description option');
+			}
+		}
+		catch (RuntimeException $e)
+		{
+			$output->writeln('<error>' . $e->getMessage());
+			exit;
+		}
+    }
+
 	/**
 	 * Execute the command
 	 *
@@ -70,7 +99,7 @@ class MakeCommandHandlerCommand extends Command
 		$infoHandler = $this->buildPath($input->getOption('name'), self::BASE_HANDLER_PATH, self::BASE_HANDLER_NAMESPACE);
 
 		// Get a map list of type and name from the args list for the command
-		$args = \explode(',', $input->getOption('args'));
+		$args = array_filter(\explode(',', $input->getOption('args')));
 		$args = array_map(function($arg)
 		{
 			list($type, $name) = explode(':', $arg);
@@ -81,7 +110,7 @@ class MakeCommandHandlerCommand extends Command
 			];
 		}, $args);
 
-		$services = \explode(',', $input->getOption('services'));
+		$services = array_filter(\explode(',', $input->getOption('services')));
 		$services = array_map(function($service)
 		{
 			return [
