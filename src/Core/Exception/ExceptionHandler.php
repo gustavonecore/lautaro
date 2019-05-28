@@ -10,7 +10,11 @@ use Leftaro\Core\ContainerAwareTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\RequestInterface;
 use Zend\Diactoros\Response\TextResponse;
+use Zend\Diactoros\Response\JsonResponse;
 
+/**
+ * Base class to global handle exceptions
+ */
 class ExceptionHandler implements ExceptionHandlerInterface, ContainerAwareInterface
 {
 	use ContainerAwareTrait;
@@ -38,11 +42,17 @@ class ExceptionHandler implements ExceptionHandlerInterface, ContainerAwareInter
 		}
 		else
 		{
-			$this->container->get('logger')->error('Unhandled ' . get_class($e) . '. Detail ' . $e->getMessage());
+			// For non production environments we just throw the error
+			if ($this->container->get('config')->get('env') !== 'production')
+			{
+				throw $e;
+			}
 
-			$response = new TextResponse('Unhandled error', 500);
+			$verbose = $this->container->get('config')->get('unknown_error_verbose') === 'verbose' ? '. Trace: ' . $e->getTraceAsString() : '';
 
-			return $response;
+			$this->container->get('logger')->error('Unhandled ' . get_class($e) . '. Detail ' . $e->getMessage() . $verbose);
+
+			return new JsonResponse(['error' => 'Unknown error'], 500);
 		}
 	}
 }

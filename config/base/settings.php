@@ -2,10 +2,10 @@
 return [
 	'host' => 'http://0.0.0.0:8080/',
 	'database' => [
-		'dbname' => 'transactions',
-		'user' => 'root',
-		'password' => 'root',
-		'host' => 'localhost',
+		'dbname' => getenv('DB_NAME'),
+		'user' => getenv('DB_USERNAME'),
+		'password' => getenv('DB_PASSWORD'),
+		'host' => getenv('DB_HOST'),
 		'driver' => 'pdo_mysql',
 	],
 	'paths' => [
@@ -13,6 +13,9 @@ return [
 		'views' => __DIR__ . '/../../resource/views/',
 		'views_cache' => __DIR__ . '/../../resource/cache/',
 		'uploads' => __DIR__ . '/../../app/uploads/',
+		'leftaro' => [
+			'templates' => __DIR__ . '/../../resource/leftaro/templates',
+		],
 	],
 	'middlewares' => [
 		// This is executed from bottom to the top
@@ -26,6 +29,7 @@ return [
 	],
 	'command_namespaces' => [
 		'Leftaro\\App\\Command\\',
-		'Leftaro\\App\\Command\\Util\\',
 	],
+	'env' => getenv('ENV'),
+	'unknown_error_verbose' => getenv('UNKNOWN_ERROR_VERBOSE'),
 ];

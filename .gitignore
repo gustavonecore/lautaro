@@ -20,3 +20,5 @@
 /src/App/Model/Base/Phinxlog.php
 /src/App/Model/Base/PhinxlogQuery.php
 .env
+/etc/schema.sql
+/etc/schema.xml
