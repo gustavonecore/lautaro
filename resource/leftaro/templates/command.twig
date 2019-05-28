@@ -1,0 +1,40 @@
+<?php namespace {{ namespace|raw }};
+
+use Leftaro\App\Command\CommandInterface;
+
+/**
+ * Command to {{ description }}
+ */
+class {{ name ~ 'Command' }} implements CommandInterface
+{
+{% for arg in args %}
+	/**
+	* @var {{ arg.type }} {{ arg.name|capitalize }}
+	*/
+	protected ${{ arg.name ~ ';'}}
+{% endfor %}
+
+	/**
+	 * Create the command
+	 *
+{% for arg in args %}
+	 * @param {{ arg.type }} ${{ arg.name }}
+{% endfor %}
+	 */
+	public function __construct({{ args ? args_constructor : '' }})
+	{
+{% for arg in args %}
+		$this->{{ arg.name }} = ${{ arg.name }};
+{% endfor %}
+	}
+
+{% for arg in args %}
+	/**
+	 * @return {{ arg.type }}
+	 */
+	public function get{{ arg.function_name }}() : {{ arg.type }}
+	{
+		return $this->{{ arg.name }};
+	}
+{% endfor %}
+}
