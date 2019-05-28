@@ -1,0 +1,112 @@
+<?php namespace {{ namespace|raw }};
+
+use Leftaro\App\Controller\Api\ApiController;
+use Zend\Diactoros\Response;
+use Zend\Diactoros\ServerRequest;
+
+/**
+ * Controller to handle {{ namespace ~ '\\' ~ name }} requests
+ */
+class {{ name ~ 'Controller' }} extends ApiController
+{
+	/**
+	 * @var mixed {{ name }} record
+	 */
+	protected ${{ varname }};
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function before(ServerRequest $request, Response $response) : Response
+	{
+		$response = parent::before($request, $response);
+
+		if ($request->getAttribute('{{ slugname ~ '_id' }}'))
+		{
+			// TODO :: You need to replace the 'id' column by the required one in your {{ name }} context
+			$this->{{ varname }} = $this->bus->getEntityOrFail('{{ slugname }}', 'id', $request->getAttribute('{{ slugname ~ '_id' }}'));
+		}
+
+		return $response;
+	}
+
+	/**
+	 * Create a new {{ name }}
+	 *
+	 * @param ServerRequest $request      Request instance
+	 * @param Response      $response     Response instance
+	 * @return Response
+	 */
+	public function postCollectionAction(ServerRequest $request, Response $response) : Response
+	{
+		return $this->json([
+			'data' => [
+				'{{ slugname }}' => [],
+			],
+		]);
+	}
+
+	/**
+	 * Get a {{ name }}
+	 *
+	 * @param ServerRequest $request      Request instance
+	 * @param Response      $response     Response instance
+	 * @return Response
+	 */
+	public function getResourceAction(ServerRequest $request, Response $response) : Response
+	{
+		return $this->json([
+			'data' => [
+				'{{ slugname }}' => $this->{{ varname }}->asArray(),
+			],
+		]);
+	}
+
+	/**
+	 * Update a {{ name }}
+	 *
+	 * @param ServerRequest $request      Request instance
+	 * @param Response      $response     Response instance
+	 * @return Response
+	 */
+	public function patchResourceAction(ServerRequest $request, Response $response) : Response
+	{
+		return $this->json([
+			'data' => [
+				'{{ slugname }}' => $this->{{ varname }}->asArray(),
+			],
+		]);
+	}
+
+	/**
+	 * Delete a {{ name }}
+	 *
+	 * @param ServerRequest $request      Request instance
+	 * @param Response      $response     Response instance
+	 * @return Response
+	 */
+	public function deleteResourceAction(ServerRequest $request, Response $response) : Response
+	{
+		return $this->json([
+			'data' => [
+				'{{ slugname }}' => [],
+			],
+		]);
+	}
+
+	/**
+	 * List {{ name }}s
+	 *
+	 * @param ServerRequest $request      Request instance
+	 * @param Response      $response     Response instance
+	 * @return Response
+	 */
+	public function getCollectionAction(ServerRequest $request, Response $response) : Response
+	{
+		return $this->json([
+			'data' => [
+				'{{ slugname ~ 's' }}' => [],
+			],
+		]);
+	}
+}

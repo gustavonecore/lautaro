@@ -13,6 +13,9 @@ return [
 		'views' => __DIR__ . '/../../resource/views/',
 		'views_cache' => __DIR__ . '/../../resource/cache/',
 		'uploads' => __DIR__ . '/../../app/uploads/',
+		'leftaro' => [
+			'templates' => __DIR__ . '/../../resource/leftaro/templates',
+		],
 	],
 	'middlewares' => [
 		// This is executed from bottom to the top
