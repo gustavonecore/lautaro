@@ -8,5 +8,6 @@ $container = require __DIR__ . '/config/local/container.php';
 $application = new \Symfony\Component\Console\Application;
 $application->addCommands([
 	$container->make(\Leftaro\Core\Console\Generator\MakeControllerCommand::class),
+	$container->make(\Leftaro\Core\Console\Generator\MakeCommandHandlerCommand::class),
 ]);
 $application->run();
