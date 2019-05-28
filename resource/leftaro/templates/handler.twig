@@ -1,0 +1,42 @@
+<?php namespace {{ namespace|raw }};
+
+{% for service in services %}
+use {{ service.namespace }};
+{% endfor %}
+use Leftaro\App\Handler\HandlerInterface;
+use {{ command_namespace ~ "\\" ~ name ~ 'Command' }};
+
+/**
+ * Handle the {{ name }} command
+ */
+class {{ name ~ 'Handler' }} implements HandlerInterface
+{
+{% for service in services %}
+	/**
+	* @var \{{ service.namespace }}
+	*/
+	protected ${{ service.varname ~ ';'}}
+{% endfor %}
+
+	/**
+	 * Create the handler
+	 *
+{% for service in services %}
+	 * @param \{{ service.namespace }} ${{ service.varname }}
+{% endfor %}
+	 */
+	public function __construct({{ services_constructor }})
+	{
+{% for service in services %}
+		$this->{{ service.varname }} = ${{ service.varname }};
+{% endfor %}
+	}
+
+	/**
+	 * Handle command
+	 */
+	public function handle({{ name ~ 'Command' }} $command)
+	{
+		return [];
+	}
+}
