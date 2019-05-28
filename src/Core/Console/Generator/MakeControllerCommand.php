@@ -53,7 +53,7 @@ class MakeControllerCommand extends Command
 	 * @return void
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output)
-    {
+	{
 		$info = $this->buildPath($input->getArgument('name'), self::BASE_PATH, self::BASE_NAMESPACE);
 
 		$nameParts = explode("\\", $input->getArgument('name'));
