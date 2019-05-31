@@ -44,6 +44,6 @@ class AuthMiddleware implements MiddlewareInterface
 			$request = $request->withAttribute('access_token', $accessToken);
 		}
 
-		return $response;
+		return [$request, $response];
 	}
 }

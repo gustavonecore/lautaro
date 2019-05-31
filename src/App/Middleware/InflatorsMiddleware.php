@@ -22,6 +22,6 @@ class InflatorsMiddleware implements MiddlewareInterface
 
 		$request = $request->withAttribute('inflators', $inflators);
 
-		return $response;
+		return [$request, $response];
 	}
 }

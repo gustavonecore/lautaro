@@ -18,7 +18,7 @@ class RouteSmartMiddleware implements MiddlewareInterface, ContainerAwareInterfa
 	/**
 	 * {@inheritDoc}
 	 */
-	public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next = null)
+	public function __invoke(RequestInterface $request, ResponseInterface $response)
 	{
 		$prefix = '/';
 		$path = $request->getUri()->getPath();
