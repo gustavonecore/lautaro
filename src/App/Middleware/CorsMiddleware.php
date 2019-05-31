@@ -9,7 +9,7 @@ class CorsMiddleware implements MiddlewareInterface
 	/**
 	 * {@inheritDoc}
 	 */
-	public function __invoke(RequestInterface $request, ResponseInterface $response) : ResponseInterface
+	public function __invoke(RequestInterface $request, ResponseInterface $response)
 	{
 		return $response->
 			withHeader('Access-Control-Allow-Origin', '*')->

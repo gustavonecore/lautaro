@@ -9,7 +9,7 @@ class ContentTypeMiddleware implements MiddlewareInterface
 	/**
 	 * {@inheritDoc}
 	 */
-	public function __invoke(RequestInterface $request, ResponseInterface $response) : ResponseInterface
+	public function __invoke(RequestInterface $request, ResponseInterface $response)
 	{
 		if ($request->hasHeader('content-type') && ($request->getHeaderLine('content-type') === 'application/json' ||
 			$request->getHeaderLine('content-type') === 'application/json; charset=utf-8'))
@@ -21,6 +21,6 @@ class ContentTypeMiddleware implements MiddlewareInterface
 			$request = $request->withAttribute('is_ajax', true);
 		}
 
-		return $response;
+		return [$request, $response];
 	}
 }

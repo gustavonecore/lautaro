@@ -18,7 +18,7 @@ class RouteFixedMiddleware implements MiddlewareInterface, ContainerAwareInterfa
 	/**
 	 * {@inheritDoc}
 	 */
-	public function __invoke(RequestInterface $request, ResponseInterface $response) : ResponseInterface
+	public function __invoke(RequestInterface $request, ResponseInterface $response)
 	{
 		$response = new Response;
 

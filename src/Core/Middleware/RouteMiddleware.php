@@ -16,7 +16,7 @@ class RouteMiddleware implements MiddlewareInterface, ContainerAwareInterface
 	/**
 	 * {@inheritDoc}
 	 */
-	public function __invoke(RequestInterface $request, ResponseInterface $response) : ResponseInterface
+	public function __invoke(RequestInterface $request, ResponseInterface $response)
 	{
 		return $this->getResponseByRoutingPolicies($request, $response);
 	}
