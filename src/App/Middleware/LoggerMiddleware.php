@@ -13,11 +13,13 @@ class LoggerMiddleware implements MiddlewareInterface, LoggerAwareInterface
 	/**
 	 * {@inheritDoc}
 	 */
-	public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next = null) : ResponseInterface
+	public function __invoke(RequestInterface $request, ResponseInterface $response)
 	{
-		$this->logger->error("Request " . $request->getMethod() . " " . (string)$request->getUri() . " in: " . (string)$request->getBody() . ', query: ' . print_r($request->getQueryParams(), true));
-		$this->logger->error("Response " . (string)$response->getBody());
+		$this->logger->debug('Request/Response', [
+            'request' => \Zend\Diactoros\Request\ArraySerializer::toArray($request),
+            'response' => \Zend\Diactoros\Response\ArraySerializer::toArray($response),
+		]);
 
-		return $next($request, $response);
+		return $response;
 	}
 }

@@ -13,6 +13,7 @@ use Leftaro\App\Session;
 use Leftaro\App\Hex\ClassNameExtractor;
 use Leftaro\App\Hex\CommandBus;
 use Leftaro\App\ExceptionHandler;
+use Leftaro\Core\Exception\ExceptionHandler as LeftaroExceptionHandler;
 use Leftaro\Core\Exception\ExceptionHandlerInterface;
 use Leftaro\Core\Console\Generator\LeftaroTwigGenerator;
 use League\Tactician\Handler\CommandHandlerMiddleware;
@@ -32,7 +33,7 @@ return [
 	Logger::class => function (ContainerInterface $container)
 	{
 		$log = new Logger('leftaro');
-		$log->pushHandler(new StreamHandler($container->get('config')->get('paths.logs') . gmdate('Y-m-d') . '.log', Logger::INFO));
+		$log->pushHandler(new StreamHandler($container->get('config')->get('paths.logs') . gmdate('Y-m-d') . '.log', Logger::DEBUG));
 		return $log;
 	},
 
@@ -187,8 +188,13 @@ return [
 
 	ExceptionHandlerInterface::class => function (ContainerInterface $container)
 	{
-		$handler = new ExceptionHandler;
+		$handler = new ExceptionHandler($container);
 		$handler->setContainer($container);
 		return $handler;
+	},
+
+	LeftaroExceptionHandler::class => function (ContainerInterface $container)
+	{
+		return new LeftaroExceptionHandler($container);
 	},
 ];

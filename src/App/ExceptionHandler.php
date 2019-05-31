@@ -21,7 +21,7 @@ class ExceptionHandler extends LeftaroExceptionHandler
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getResponse(Exception $e, RequestInterface $request = null) : ResponseInterface
+	public function getResponse(Exception $e, RequestInterface $request, ResponseInterface $response) : ResponseInterface
 	{
 		if ($e instanceof ApiException)
 		{
@@ -47,7 +47,7 @@ class ExceptionHandler extends LeftaroExceptionHandler
 			], 400);
 		}
 
-		return parent::getResponse($e, $request);
+		return parent::getResponse($e, $request, $response);
 	}
 
 	/**

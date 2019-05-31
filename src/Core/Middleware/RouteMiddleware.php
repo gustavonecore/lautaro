@@ -14,19 +14,11 @@ class RouteMiddleware implements MiddlewareInterface, ContainerAwareInterface
 	use ContainerAwareTrait;
 
 	/**
-	 * Handle the middleware call for request and response approach
-	 *
-	 * @param  \Psr\Http\Message\RequestInterface    $request   Request instance
-	 * @param  \Psr\Http\Message\ResponseInterface   $response  Response instance
-	 * @param  callable                              $next      Next callable Middleware
-	 *
-	 * @return \Psr\Http\Message\ResponseInterface
+	 * {@inheritDoc}
 	 */
-	public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next = null) : ResponseInterface
+	public function __invoke(RequestInterface $request, ResponseInterface $response)
 	{
-		$response = $this->getResponseByRoutingPolicies($request, $response);
-
-		return $next($request, $response);
+		return $this->getResponseByRoutingPolicies($request, $response);
 	}
 
 	/**

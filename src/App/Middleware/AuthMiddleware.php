@@ -11,7 +11,7 @@ class AuthMiddleware implements MiddlewareInterface
 	/**
 	 * {@inheritDoc}
 	 */
-	public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next = null) : ResponseInterface
+	public function __invoke(RequestInterface $request, ResponseInterface $response)
 	{
 		$accessToken = null;
 
@@ -28,7 +28,7 @@ class AuthMiddleware implements MiddlewareInterface
 		{
 			$request = $request->withAttribute('access_token', $accessToken);
 
-			$token = TokenQuery::create()->requireOneByToken($accessToken);
+			$token = TokenQuery::fetchOneOrFail('token', $accessToken);
 
 			if ($token->isExpired())
 			{
@@ -40,13 +40,10 @@ class AuthMiddleware implements MiddlewareInterface
 			$token->setExpireDt($expireDt->modify('+2 weeks'));
 			$token->save();
 
-			$user = $token->getUser();
-			$user->computed_token_id = $token->getId();
-			$user->computed_token_hash = $accessToken;
-
-			$request = $request->withAttribute('authenticated_user', $user);
+			$request = $request->withAttribute('authenticated_user', $token->getUser());
+			$request = $request->withAttribute('access_token', $accessToken);
 		}
 
-		return $next($request, $response);
+		return [$request, $response];
 	}
 }

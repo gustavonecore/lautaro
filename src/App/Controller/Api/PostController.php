@@ -3,7 +3,6 @@
 use Leftaro\App\Controller\Api\ApiController;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
-use Leftaro\App\Model\Post;
 /**
  * Post controller
  */
@@ -23,14 +22,9 @@ class PostController extends ApiController
 			'content' => 'string!',
 		], $request->getParsedBody());
 
-		$post = Post::create([
-			'title' => $input['title'],
-			'content' => $input['content'],
-		]);
-
 		return $this->json([
 			'data' => [
-				'post' => $post->asArray(),
+				'post' => [],
 			],
 		]);
 	}
