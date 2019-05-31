@@ -2,8 +2,7 @@
 
 use Exception;
 use Leftaro\Core\Exception\ExceptionHandlerInterface;
-use Leftaro\Core\Exception\ExceptionHandler;
-use Leftaro\Core\Middleware\MiddlewareQueue;
+use Leftaro\Core\Middleware\MiddlewareList;
 use Leftaro\Core\LoggerAwareInterface;
 use Leftaro\Core\ContainerAwareInterface;
 use Psr\Container\ContainerInterface;
@@ -20,59 +19,30 @@ class Application
 	protected $container;
 
 	/**
-	 * @var \Leftaro\Core\Middleware\MiddlewareQueue  MiddlewareQueue
+	 * @var \Leftaro\Core\Middleware\MiddlewareList  MiddlewareList
 	 */
-	protected $middlewareQueue;
+	protected $middlewareList;
 
 	/**
 	 * @var string Routing policy
 	 */
 	protected $routingPolicy;
 
-	/**
-	 * @var Leftaro\Core\Exception\ExceptionHandlerInterface
-	 */
-	protected $errorHandler;
 
 	/**
 	 * Constructs the main application
 	 *
 	 * @param \Psr\Container\ContainerInterface $container
 	 */
-	public function __construct(ContainerInterface $container)
+	public function __construct(ContainerInterface $container, ExceptionHandlerInterface $errorHandler)
 	{
 		$this->container = $container;
 
-		$this->middlewareQueue = new MiddlewareQueue;
+		$this->middlewareList = new MiddlewareList($errorHandler);
 
 		$this->emitter = new SapiEmitter;
 
 		$this->setupMiddlewares();
-	}
-
-	/**
-	 * Set an error handler
-	 *
-	 * @param Leftaro\Core\Exception\ExceptionHandlerInterface $errorHandler  Error handler
-	 * @return void
-	 */
-	public function setErrorHandler(ExceptionHandlerInterface $errorHandler)
-	{
-		$this->errorHandler = $errorHandler;
-	}
-
-	/**
-	 * If no error handler provided, use this method.
-	 *
-	 * @return Leftaro\Core\Exception\ExceptionHandlerInterface
-	 */
-	private function getDefaultErrorHandler() : ExceptionHandlerInterface
-	{
-		$errorHandler = new ExceptionHandler;
-
-		$errorHandler->setContainer($this->container);
-
-		return $errorHandler;
 	}
 
 	public function setRoutingPoligy(string $type)
@@ -117,7 +87,7 @@ class Application
 				$middlewareInstance->setContainer($this->container->get('container'));
 			}
 
-			$this->middlewareQueue->add($middlewareInstance);
+			$this->middlewareList->add($middlewareInstance);
 		}
 	}
 
@@ -129,18 +99,7 @@ class Application
 	 */
 	private function runMiddlewares(RequestInterface $request) : ResponseInterface
 	{
-		try
-		{
-			$response = $this->middlewareQueue->process($request, new Response);
-		}
-		catch (Exception $e)
-		{
-			$handler = $this->errorHandler ? $this->errorHandler : $this->getDefaultErrorHandler();
-
-			$response = $handler->getResponse($e, $request);
-		}
-
-		return $response;
+		return $this->middlewareList->run($request, new Response);
 	}
 
 	/**

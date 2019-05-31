@@ -18,17 +18,18 @@ return [
 		],
 	],
 	'middlewares' => [
-		// This is executed from bottom to the top
-		\Leftaro\App\Middleware\LoggerMiddleware::class,
-		\Leftaro\App\Middleware\CorsMiddleware::class,
-		\Leftaro\Core\Middleware\RouteMiddleware::class,
-		\Leftaro\App\Middleware\InflatorsMiddleware::class,
-		\Leftaro\App\Middleware\AuthMiddleware::class,
-		\Leftaro\App\Middleware\ContentTypeMiddleware::class,
+		// This is executed from top to the bottom
 		\Leftaro\App\Middleware\OptionsHeaderMiddleware::class,
+		\Leftaro\App\Middleware\ContentTypeMiddleware::class,
+		\Leftaro\App\Middleware\AuthMiddleware::class,
+		\Leftaro\App\Middleware\InflatorsMiddleware::class,
+		\Leftaro\Core\Middleware\RouteMiddleware::class,
+		\Leftaro\App\Middleware\CorsMiddleware::class,
+		\Leftaro\App\Middleware\LoggerMiddleware::class,
 	],
 	'command_namespaces' => [
 		'Leftaro\\App\\Command\\',
+		'Leftaro\\App\\Command\\Util\\',
 	],
 	'env' => getenv('ENV'),
 	'unknown_error_verbose' => getenv('UNKNOWN_ERROR_VERBOSE'),

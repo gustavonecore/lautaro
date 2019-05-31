@@ -1,12 +1,12 @@
 <?php namespace Leftaro\Core\Exception;
 
 use Exception;
+use Psr\Container\ContainerInterface;
 use DI\NotFoundException as DINotFoundException;
 use Leftaro\Core\Exception\MethodNotAllowedException;
 use Leftaro\Core\Exception\NotFoundException;
 use Leftaro\Core\Exception\LeftaroException;
-use Leftaro\Core\ContainerAwareInterface;
-use Leftaro\Core\ContainerAwareTrait;
+use Leftaro\Core\Exception\ExceptionHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\RequestInterface;
 use Zend\Diactoros\Response\TextResponse;
@@ -15,14 +15,19 @@ use Zend\Diactoros\Response\JsonResponse;
 /**
  * Base class to global handle exceptions
  */
-class ExceptionHandler implements ExceptionHandlerInterface, ContainerAwareInterface
+class ExceptionHandler implements ExceptionHandlerInterface
 {
-	use ContainerAwareTrait;
+	protected $container;
+
+	public function __construct(ContainerInterface $container)
+	{
+		$this->container = $container;
+	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getResponse(Exception $e, RequestInterface $request = null) : ResponseInterface
+	public function getResponse(Exception $e, RequestInterface $request, ResponseInterface $response) : ResponseInterface
 	{
 		if ($e instanceof MethodNotAllowedException)
 		{
