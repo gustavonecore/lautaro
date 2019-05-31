@@ -17,7 +17,7 @@ class AclMiddleware implements MiddlewareInterface, ContainerAwareInterface
 	/**
 	 * {@inheritDoc}
 	 */
-	public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next = null) : ResponseInterface
+	public function __invoke(RequestInterface $request, ResponseInterface $response) : ResponseInterface
 	{
 		$allowedMethods = $this->container->get('config')->get('app.acl_whitelist_methods');
 		$allowedResources = $this->container->get('config')->get('app.acl_whitelist_resources');
@@ -29,7 +29,7 @@ class AclMiddleware implements MiddlewareInterface, ContainerAwareInterface
 
         if (in_array($method, $allowedMethods) || in_array($resource, $allowedResources))
         {
-            return $next($request, $response);
+            return $response;
         }
 
         if (!$authUser)
@@ -51,8 +51,6 @@ class AclMiddleware implements MiddlewareInterface, ContainerAwareInterface
         {
             throw new PermissionDeniedException;
         }
-
-		return $next($request, $response);
 	}
 
 

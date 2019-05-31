@@ -9,11 +9,8 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif|css|js|map|woff2|woff|ttf|pdf)$/', $_SERV
 
 $container = require __DIR__ . '/../config/local/container.php';
 
-$application = new \Leftaro\App\Application($container);
-$errorHandler = new Leftaro\App\ExceptionHandler;
-$errorHandler->setContainer($container);
-
-$application->setErrorHandler($errorHandler);
+$errorHandler = new Leftaro\App\ExceptionHandler($container);
+$application = new \Leftaro\App\Application($container, $errorHandler);
 
 $application->initOrm();
 

@@ -16,18 +16,10 @@ class RouteFixedMiddleware implements MiddlewareInterface, ContainerAwareInterfa
 	use ContainerAwareTrait;
 
 	/**
-	 * Handle the middleware call for request and response approach
-	 *
-	 * @param  \Psr\Http\Message\RequestInterface    $request   Request instance
-	 * @param  \Psr\Http\Message\ResponseInterface   $response  Response instance
-	 * @param  callable                              $next      Next callable Middleware
-	 *
-	 * @return \Psr\Http\Message\ResponseInterface
+	 * {@inheritDoc}
 	 */
-	public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next = null) : ResponseInterface
+	public function __invoke(RequestInterface $request, ResponseInterface $response) : ResponseInterface
 	{
-		error_log("__invoke RouteFixedMiddleware");
-
 		$response = new Response;
 
 		$rootPath = (new Uri($this->container->get('config')->get('host')))->getPath();
@@ -72,11 +64,6 @@ class RouteFixedMiddleware implements MiddlewareInterface, ContainerAwareInterfa
 			break;
 		}
 
-		if (!$next)
-		{
-			return $response;
-		}
-
-		return $next($request, $response);
+		return $response;
 	}
 }

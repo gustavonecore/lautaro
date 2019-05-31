@@ -16,18 +16,10 @@ class RouteSmartMiddleware implements MiddlewareInterface, ContainerAwareInterfa
 	use ContainerAwareTrait;
 
 	/**
-	 * Handle the middleware call for request and response approach
-	 *
-	 * @param  \Psr\Http\Message\RequestInterface    $request   Request instance
-	 * @param  \Psr\Http\Message\ResponseInterface   $response  Response instance
-	 * @param  callable                              $next      Next callable Middleware
-	 *
-	 * @return \Psr\Http\Message\ResponseInterface
+	 * {@inheritDoc}
 	 */
 	public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next = null) : ResponseInterface
 	{
-		error_log("__invoke RouteSmartMiddleware");
-
 		$prefix = '/';
 		$path = $request->getUri()->getPath();
 		$rootPath = (new Uri($this->container->get('config')->get('host')))->getPath();
@@ -104,11 +96,6 @@ class RouteSmartMiddleware implements MiddlewareInterface, ContainerAwareInterfa
 
 		$response = $controllerInstance->after($request, $response);
 
-		if (!$next)
-		{
-			return $response;
-		}
-
-		return $next($request, $response);
+		return $response;
 	}
 }
