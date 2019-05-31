@@ -1,13 +1,13 @@
 <?php namespace Leftaro\Core\Middleware;
 
 use Exception;
+use Leftaro\Core\Exception\InvalidMiddlewareException;
 use Leftaro\Core\Exception\ExceptionHandlerInterface;
 use Leftaro\Core\Middleware\MiddlewareInterface;
 use Leftaro\Core\Middleware\MiddlewareContainer;
 use Leftaro\Core\Middleware\CanStopExecutionInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use RuntimeException;
 
 class MiddlewareList
 {
@@ -87,10 +87,10 @@ class MiddlewareList
 				}
 				else
 				{
-					throw new RuntimeException('Invalid return data from Middleware: ' . get_class($middleware));
+					throw new InvalidMiddlewareException(get_class($middleware));
 				}
 			}
-			catch (RuntimeException $e)
+			catch (InvalidMiddlewareException $e)
 			{
 				throw $e;
 			}
