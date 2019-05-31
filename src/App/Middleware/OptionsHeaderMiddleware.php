@@ -24,7 +24,7 @@ class OptionsHeaderMiddleware implements MiddlewareInterface, LoggerAwareInterfa
 	/**
 	 * {@inheritDoc}
 	 */
-	public function __invoke(RequestInterface $request, ResponseInterface $response) : ResponseInterface
+	public function __invoke(RequestInterface $request, ResponseInterface $response)
 	{
 		if ($request->getMethod() === 'OPTIONS')
 		{

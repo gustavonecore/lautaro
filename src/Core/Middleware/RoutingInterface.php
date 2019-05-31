@@ -10,7 +10,6 @@ interface RoutingInterface
 	 *
 	 * @param  \Psr\Http\Message\RequestInterface    $request   Request instance
 	 * @param  \Psr\Http\Message\ResponseInterface   $response  Response instance
-	 *
 	 * @return \Psr\Http\Message\ResponseInterface
 	 */
 	public function getResponse(RequestInterface $request, ResponseInterface $response) : ResponseInterface;

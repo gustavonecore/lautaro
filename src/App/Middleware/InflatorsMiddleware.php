@@ -12,7 +12,7 @@ class InflatorsMiddleware implements MiddlewareInterface
 	/**
 	 * {@inheritDoc}
 	 */
-	public function __invoke(RequestInterface $request, ResponseInterface $response) : ResponseInterface
+	public function __invoke(RequestInterface $request, ResponseInterface $response)
 	{
 		$query = (new TemplateSanitizer(['inflators' => 'string']))->sanitize($request->getQueryParams());
 
@@ -22,6 +22,6 @@ class InflatorsMiddleware implements MiddlewareInterface
 
 		$request = $request->withAttribute('inflators', $inflators);
 
-		return $response;
+		return [$request, $response];
 	}
 }

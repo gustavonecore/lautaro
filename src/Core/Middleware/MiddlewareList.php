@@ -7,6 +7,7 @@ use Leftaro\Core\Middleware\MiddlewareContainer;
 use Leftaro\Core\Middleware\CanStopExecutionInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use RuntimeException;
 
 class MiddlewareList
 {
@@ -21,6 +22,11 @@ class MiddlewareList
 	protected $rootNode;
 
 	/**
+	 * @var \Leftaro\Core\Middleware\MiddlewareContainer
+	 */
+	protected $lastNode;
+
+	/**
 	 * @var int
 	 */
 	protected $count;
@@ -33,8 +39,8 @@ class MiddlewareList
 	public function __construct(ExceptionHandlerInterface $exceptionHandler)
 	{
 		$this->exceptionHandler = $exceptionHandler;
-		$this->count = 0;
-		$this->rootNode = null;
+		$this->rootNode = new MiddlewareContainer(new DefaultMiddleware);
+		$this->count = 1;
 	}
 
 	/**
@@ -46,27 +52,9 @@ class MiddlewareList
 	public function add(MiddlewareInterface $middleware)
 	{
 		$node = new MiddlewareContainer($middleware);
-
-		$current = $this->rootNode;
-
-		if (!$current)
-		{
-			$this->rootNode = $node;
-		}
-		else
-		{
-			while($current)
-			{
-				if ($current->getNext() === null)
-				{
-					$current->setNext($node);
-					break;
-				}
-
-				$current = $current->getNext();
-			}
-		}
-
+		$pointer = $this->getCount() === 1 ? $this->rootNode : $this->lastNode;
+		$pointer->setNext($node);
+		$this->lastNode = $node;
 		$this->count++;
 	}
 
@@ -87,7 +75,24 @@ class MiddlewareList
 
 			try
 			{
-				$response = $middleware($request, $response);
+				$output = $middleware($request, $response);
+
+				if ($output instanceof ResponseInterface)
+				{
+					$response = $output;
+				}
+				else if (is_array($output) && count($output) === 2 && $output[0] instanceof RequestInterface && $output[1] instanceof ResponseInterface)
+				{
+					list($request, $response) = $output;
+				}
+				else
+				{
+					throw new RuntimeException('Invalid return data from Middleware: ' . get_class($middleware));
+				}
+			}
+			catch (RuntimeException $e)
+			{
+				throw $e;
 			}
 			catch (Exception $e)
 			{

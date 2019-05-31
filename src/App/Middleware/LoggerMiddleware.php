@@ -13,7 +13,7 @@ class LoggerMiddleware implements MiddlewareInterface, LoggerAwareInterface
 	/**
 	 * {@inheritDoc}
 	 */
-	public function __invoke(RequestInterface $request, ResponseInterface $response) : ResponseInterface
+	public function __invoke(RequestInterface $request, ResponseInterface $response)
 	{
 		$this->logger->debug('Request/Response', [
             'request' => \Zend\Diactoros\Request\ArraySerializer::toArray($request),

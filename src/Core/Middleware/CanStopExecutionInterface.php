@@ -7,5 +7,5 @@ interface CanStopExecutionInterface
 	 *
 	 * @return boolean
 	 */
-    public function shouldStop() : bool;
+	public function shouldStop() : bool;
 }

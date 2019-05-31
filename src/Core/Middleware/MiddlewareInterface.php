@@ -10,7 +10,7 @@ interface MiddlewareInterface
 	 *
 	 * @param  \Psr\Http\Message\RequestInterface    $request   Request instance
 	 * @param  \Psr\Http\Message\ResponseInterface   $response  Response instance
-	 * @return \Psr\Http\Message\ResponseInterface
+	 * @return \Psr\Http\Message\ResponseInterface | [\Psr\Http\Message\RequestInterface, \Psr\Http\Message\ResponseInterface]
 	 */
-	public function __invoke(RequestInterface $request, ResponseInterface $response) : ResponseInterface;
+	public function __invoke(RequestInterface $request, ResponseInterface $response);
 }

@@ -8,7 +8,6 @@ use Leftaro\Core\ContainerAwareInterface;
 use Leftaro\Core\ContainerAwareTrait;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Zend\Diactoros\Response;
 use Zend\Diactoros\Uri;
 
 class RouteFixedMiddleware implements MiddlewareInterface, ContainerAwareInterface
@@ -18,10 +17,8 @@ class RouteFixedMiddleware implements MiddlewareInterface, ContainerAwareInterfa
 	/**
 	 * {@inheritDoc}
 	 */
-	public function __invoke(RequestInterface $request, ResponseInterface $response) : ResponseInterface
+	public function __invoke(RequestInterface $request, ResponseInterface $response)
 	{
-		$response = new Response;
-
 		$rootPath = (new Uri($this->container->get('config')->get('host')))->getPath();
 
 		$path = $request->getUri()->getPath();
